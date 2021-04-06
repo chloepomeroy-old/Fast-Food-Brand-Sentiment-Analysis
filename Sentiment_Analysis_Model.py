@@ -1,21 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[16]:
-
-
 from nltk.corpus import twitter_samples
 from nltk.tag import pos_tag
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
+import random
 import emoji
-
 import re, string
-
-
-# In[53]:
-
 
 def remove_noise(text_tokens, stop_words = ()):
     #Function to remove noise
@@ -53,20 +46,13 @@ def make_cleaned_list(token_list):
         cleaned_list.append(remove_noise(token, stop_words))
     return cleaned_list
 
-
-# In[80]:
-
-
 stop_words = stopwords.words('english')
 
 positive_tweets = twitter_samples.strings('positive_tweets.json')
 negative_tweets = twitter_samples.strings('negative_tweets.json')
 neutral_tweets = twitter_samples.strings('tweets.20150430-223406.json')
 
-
-# In[81]:
-
-
+#--------
 new_neg_list = ['stfu you literally said women belong in the kitchen on women\'s day 😐', 'This ain\'t it. A chicken tender between 2 pieces of bread. It\'s like a hot dog on a hamburger bun. Save yourself the time and $ and go to popeyes lmao', 'It was disgusting not gonna lie. Never again.', 'fuck you', '🤮🤮 TEACH YOUT EMPLOYEES LAW AND RESPECT MASK EXEMPTIONS', '😢', 'decided to ruin my life by discontinuing the hot fudge stuffed cookies. i’m very sad 😡😡😡', 'let me down once again 😭😭😭', 'discontinuing their fudge stuffed cookies ruined my life 🙃', 'Them biscuits looks like the devil themselves 😆😆😆', 'THAT disgraceful "meal" cost $15.. Look at it. Not only did the guy who claimed he\'s a manager at this location tell my mom he\'s not doing anything about it but also told her "for $15 I can buy you another fucking meal". ur managers aren\'t managing shit. Do something', 'fuck you and ur nasty ass cheese curds', 'I just had the worst service ever at the abbot location in anchorage. What’s up with that?', 'still trash.', 'y’all know y’all wrong for putting all that butter on this damn toast', 'your food program is the equivalent of going out to the street, opening up a trash bag and eating out of it.  That’s how shitty your food is.  Carry on.', 'I went the other day and they wouldn’t add gravy to my Blizzard- manager said I’d have to do it myself!!!! How about you give the customers what they want???', '@TimHortons I’ve done that a few times and nothing. I just get contacted to ask how I can be helped and I never hear back. used to be so much better, and straight forward before all this digital mess.', '@Wendys fix your shit! Give your store access to do refunds tru your fucking app and access to change items for there sto…', '@BurgerKing May I suggest something. Stop posting anything regarding on any of your social media sites or advertisements. It’s a friggin (that word is a substitute for a word that’s more deserving) joke and worst one ever on so many levels. Unless you want to shame yourself more', '@kfc the cashier didn’t allow me to scan my rewards and I was not able to get food. Very upset.', '@dgvohwe0 that looks like assss']
 for tweet in new_neg_list:
     #adding further examples to the negative list
@@ -81,26 +67,11 @@ new_neu_list = [' Bring back the Portobello Mushroom Melt!! 😭', 'Does Wendy�
 for tweet in new_neu_list:
     #adding further examples to the neutral list
     neutral_tweets.append(tweet)
+#---------
 
-
-# In[82]:
-
-
-positive_tweet_tokens = make_token_list(positive_tweets)
-negative_tweet_tokens = make_token_list(negative_tweets)
-neutral_tweet_tokens = make_token_list(neutral_tweets)
-
-
-# In[83]:
-
-
-positive_cleaned_tokens = make_cleaned_list(positive_tweet_tokens)
-negative_cleaned_tokens = make_cleaned_list(negative_tweet_tokens)
-neutral_cleaned_tokens = make_cleaned_list(neutral_tweet_tokens)
-
-
-# In[84]:
-
+positive_cleaned_tokens = make_cleaned_list(make_token_list(positive_tweets))
+negative_cleaned_tokens = make_cleaned_list(make_token_list(negative_tweets))
+neutral_cleaned_tokens = make_cleaned_list(make_token_list(neutral_tweets))
 
 def get_all_words(cleaned_tokens_list):
     for tokens in cleaned_tokens_list:
@@ -111,10 +82,6 @@ all_pos_words = get_all_words(positive_cleaned_tokens)
 all_neg_words = get_all_words(negative_cleaned_tokens)
 all_neu_words = get_all_words(neutral_cleaned_tokens)
 
-
-# In[85]:
-
-
 def get_tweets_for_model(cleaned_tokens_list):
     for tweet_tokens in cleaned_tokens_list:
         yield dict([token, True] for token in tweet_tokens)
@@ -122,12 +89,6 @@ def get_tweets_for_model(cleaned_tokens_list):
 positive_tokens_for_model = get_tweets_for_model(positive_cleaned_tokens)
 negative_tokens_for_model = get_tweets_for_model(negative_cleaned_tokens)
 neutral_tokens_for_model = get_tweets_for_model(neutral_cleaned_tokens)
-
-
-# In[86]:
-
-
-import random
 
 positive_dataset = [(tweet_dict, "Positive")
                      for tweet_dict in positive_tokens_for_model]
@@ -145,17 +106,7 @@ random.shuffle(dataset)
 train_data = dataset[:7000]
 test_data = dataset[7000:]
 
-
-# In[87]:
-
-
+#----------------------
 from nltk import classify
 from nltk import NaiveBayesClassifier
 classifier = NaiveBayesClassifier.train(train_data)
-
-
-# In[ ]:
-
-
-
-
