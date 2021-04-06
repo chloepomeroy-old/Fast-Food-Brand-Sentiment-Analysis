@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[13]:
-
-
 import pandas as pd
 from urllib.parse import urlencode
 from openpyxl import Workbook
@@ -12,13 +9,10 @@ from instascrape import *
 wb=Workbook()
 page=wb.active
 
-session_id = '863216893%3A8hUnFBS0T84cKP%3A26'
+#pass a session_id so instagram doesn't prompt for login credentials
+session_id = '863216893%3A8hUnFBS0T84cKP%3A26' 
 
 data = pd.read_csv("insta_file_unscraped.csv")
-
-
-# In[11]:
-
 
 for index, row in data.iterrows():
     brand_post_url = row['brand_post_url']
@@ -30,15 +24,4 @@ for index, row in data.iterrows():
         comment_text.remove('<Comment')
         page.append([brand, brand_post_url, comment_text[0], comment_text[1]])
 
-
-# In[12]:
-
-
 wb.save(filename = 'insta_comments.xlsx')
-
-
-# In[ ]:
-
-
-
-
