@@ -6,13 +6,16 @@ from urllib.parse import urlencode
 from openpyxl import Workbook
 from instascrape import *
 
-wb=Workbook()
-page=wb.active
-
 #pass a session_id so instagram doesn't prompt for login credentials
 session_id = '863216893%3A8hUnFBS0T84cKP%3A26' 
 
 data = pd.read_csv("insta_file_unscraped.csv")
+
+column_names = ['brand', 'brand_post_url', 'user', 'user name', 'text', 'date', 'time']
+
+wb=Workbook()
+page=wb.active
+page.append(column_names) #append the first row of the output file with the column names
 
 for index, row in data.iterrows():
     brand_post_url = row['brand_post_url']
