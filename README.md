@@ -8,4 +8,4 @@ sentiment_analysis_model.py (written using nltk) was not written by me and is al
 https://www.digitalocean.com/community/tutorials/how-to-perform-sentiment-analysis-in-python-3-using-the-natural-language-toolkit-nltk. 
 It is a machine learning model that uses natural language processing to conduct sentiment analysis. I used the built-in nltk.corpus twitter_samples to train the model, but I also added a number of my own examples from twitter that included emojis, in the hopes of improving the model. At this time the model is still not extremely accurate, but my added samples did make an improvement and further exploration could be done into this to continue to improve the accuracy.
 
-classify.py is just a simple file that reads the data from "twitter_replies.xlsx" and "instagram_replies.xlsx" (which must be specified in the code, by default it is "twitter_replies.xlsx") and applies the sentiment analysis model to the data.
+classify.py is just a simple file that reads the data from "twitter_replies.xlsx" and "insta_comments.xlsx" (which must be specified in the code, by default it is "twitter_replies.xlsx") and applies the sentiment analysis model to the data.
