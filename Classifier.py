@@ -11,6 +11,7 @@ import pandas as pd
 data = load_workbook('twitter_replies.xlsx')
 columns = next(data['Sheet'].values)[0:]
 df = pd.DataFrame(data['Sheet'].values, columns=columns)
+df = df.drop([df.index[0]]) #drop the original header row
 
 column_names = ['date', 'time', 'brand', 'brand_post_url', 'user', 'user name', 'reply', 'sentiment']
 wb=Workbook()
