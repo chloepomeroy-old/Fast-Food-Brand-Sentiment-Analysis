@@ -23,7 +23,7 @@ api = api = tweepy.API(auth, wait_on_rate_limit=True) #wait_on_rate_limit lets u
 
 brand_list = pd.read_csv("brand_list_twitter.csv") #read the list of brands from a file
 
-column_names = ['brand', 'brand_post_url', 'user', 'user name', 'text', 'date', 'time']
+column_names = ['brand', 'brand_post_url', 'username', 'name', 'text', 'date', 'time']
 
 wb=Workbook()
 page=wb.active
